@@ -1,35 +1,39 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useState, Suspense } from "react";
+import ErrorBoundary from "./ErrorBoundary";
+import PokemonCard from "./components/PokemonCard";
+import PokemonGrid from "./components/PokemonGrid";
+import Footer from "./components/Footer";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [selectedPokemon, setSelectedPokemon] = useState(null);
+  const url = "https://pokeapi.co/api/v2/pokemon/";
+
+  function handleSelectPokemon(pokemon) {
+    setSelectedPokemon(pokemon);
+  }
+
+  function handleClearPokemon() {
+    setSelectedPokemon(null);
+  }
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div>
+      <ErrorBoundary fallback={<div>Error...</div>}>
+        <Suspense fallback={<div>Loading...</div>}>
+          {selectedPokemon ? (
+            <PokemonCard
+              parentUrl={url}
+              selectPokemon={selectedPokemon}
+              clearHandler={handleClearPokemon}
+            />
+          ) : (
+            <PokemonGrid url={url} handleSelectPokemon={handleSelectPokemon} />
+          )}
+        </Suspense>
+      </ErrorBoundary>
+      <Footer />
+    </div>
+  );
 }
 
-export default App
+export default App;

@@ -14,3 +14,12 @@ This is a mini Pokemon application built with React. It allows users to view and
 - React Hooks: Used to manage state and lifecycle methods in functional components.
 - CSS Modules: Used for styling the components with scoped CSS.
 - PokeAPI: Used to fetch Pokemon data from the Pokemon API.
+
+## Installation
+
+cd mini-pokemon-react-project
+npm install
+
+## Usage
+
+npm start / npm run dev
